@@ -20,19 +20,19 @@ describe "Vidibus::VersionScheduler::Mongoid" do
 
   describe "#scheduled_versions" do
     it "should be an empty array by default" do
-      new_book.scheduled_versions.should eq([])
+      expect(new_book.scheduled_versions).to eq([])
     end
 
     it "should contain scheduled versions that have created by the VersionObserver" do
       future_version
-      book.reload.scheduled_versions.should have(1).item
-      book.scheduled_versions.first.should be_a(Vidibus::VersionScheduler::ScheduledVersion)
+      expect(book.reload.scheduled_versions.size).to eq(1)
+      expect(book.scheduled_versions.first).to be_a(Vidibus::VersionScheduler::ScheduledVersion)
     end
 
     it "should not prevent the versioned object from saving, if invalid" do
       future_version
-      stub.any_instance_of(Vidibus::VersionScheduler::ScheduledVersion).valid? {false}
-      future_version.save.should be_true
+      double.any_instance_of(Vidibus::VersionScheduler::ScheduledVersion).valid? {false}
+      expect(future_version.save).to be_truthy
     end
   end
 

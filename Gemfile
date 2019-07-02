@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'vidibus-uuid', github: 'dosbnewmedia/vidibus-uuid'
-# gem 'vidibus-versioning', github: 'dosbnewmedia/vidibus-versioning'
-gem 'vidibus-versioning', path: '../vidibus-versioning'
+gem 'vidibus-versioning', github: 'dosbnewmedia/vidibus-versioning'
+#gem 'vidibus-versioning', path: '../vidibus-versioning'
 
 gem 'rails-observers',  github: 'rails/rails-observers'

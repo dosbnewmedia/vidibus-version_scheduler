@@ -54,7 +54,7 @@ describe "Vidibus::VersionScheduler::MigrationJob" do
       future_version
       allow_any_instance_of(Book).migrate!(2) {true}
       job.perform
-      Vidibus::VersionScheduler::ScheduledVersion.count.should eql(0)
+      expect(Vidibus::VersionScheduler::ScheduledVersion.count).to eql(0)
     end
 
     it "should not destroy any other scheduled versions" do
@@ -65,7 +65,7 @@ describe "Vidibus::VersionScheduler::MigrationJob" do
       future_version
       allow_any_instance_of(Book).migrate!(2) {true}
       job.perform
-      Vidibus::VersionScheduler::ScheduledVersion.count.should eql(1)
+      expect(Vidibus::VersionScheduler::ScheduledVersion.count).to eql(1)
     end
   end
 end

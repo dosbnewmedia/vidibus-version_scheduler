@@ -19,7 +19,7 @@ describe "Vidibus::VersionScheduler::VersionObserver" do
 
   describe "saving a version" do
     it "should enable scheduling if the versioned object should be scheduled" do
-      mock.any_instance_of(Vidibus::VersionScheduler::VersionObserver).schedule.with_any_args
+      double.any_instance_of(Vidibus::VersionScheduler::VersionObserver).schedule.with_any_args
       future_version
     end
 
@@ -32,18 +32,18 @@ describe "Vidibus::VersionScheduler::VersionObserver" do
     it "should schedule it if it's future" do
       future_version
       scheduled_versions = book.reload.scheduled_versions
-      scheduled_versions.should have(1).item
-      scheduled_versions.first.version_uuid.should eql(future_version.uuid)
+      expect(scheduled_versions.size).to eq(1)
+      expect(scheduled_versions.first.version_uuid).to eql(future_version.uuid)
     end
 
     it "should not schedule it if it's past" do
       past_version
-      book.reload.scheduled_versions.should have(:no).items
+      expect(book.reload.scheduled_versions.size).to eq(0)
     end
 
     it "should remove it from schedule if it's past now" do
       future_version.update_attributes(:created_at => 1.day.ago)
-      book.reload.scheduled_versions.should have(:no).items
+      expect(book.reload.scheduled_versions.size).to eq(0)
     end
 
     it "should not remove other scheduled items if it's meant to remove just one" do
@@ -54,18 +54,18 @@ describe "Vidibus::VersionScheduler::VersionObserver" do
       end.version_object
       version.update_attributes(:created_at => 1.day.ago)
       scheduled_versions = book.reload.scheduled_versions
-      scheduled_versions.should have(1).item
-      scheduled_versions.first.version_uuid.should eql(new_version.uuid)
+      expect(scheduled_versions.size).to eq(1)
+      expect(scheduled_versions.first.version_uuid).to eql(new_version.uuid)
     end
 
     it "should create a new scheduled item if the version's creation time gets updated" do
       future_version.update_attributes!(:created_at => 2.days.since)
-      book.reload.scheduled_versions.first.run_at.should eql(2.days.since)
+      expect(book.reload.scheduled_versions.first.run_at).to eql(2.days.since)
     end
 
     it "should keep only one scheduled item if the version's creation time gets updated" do
       future_version.update_attributes(:created_at => 2.days.since)
-      book.reload.scheduled_versions.should have(1).item
+      expect(book.reload.scheduled_versions.size).to eq(1)
     end
   end
 
