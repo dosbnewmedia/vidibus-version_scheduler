@@ -3,7 +3,7 @@ module Vidibus
     class ScheduledVersion
       include ::Mongoid::Document
 
-      belongs_to :scheduled, :polymorphic => true
+      belongs_to :scheduled, polymorphic: true, autosave: false
 
       field :run_at, :type => Time
       field :version_uuid, :type => String

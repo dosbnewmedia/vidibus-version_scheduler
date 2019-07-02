@@ -18,16 +18,17 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = ">= 1.3.6"
   s.rubyforge_project         = "vidibus-version_scheduler"
 
-  s.add_dependency "mongoid", ">= 3.0.0"
+  s.add_dependency "mongoid", ">= 5", "< 7"
   s.add_dependency "delayed_job"
   s.add_dependency "delayed_job_mongoid"
-  s.add_dependency "vidibus-versioning", '>= 0.2.0'
+  s.add_dependency 'mongoid-observers', '~> 0.3.0'
+  #s.add_dependency "vidibus-versioning"
 
-  s.add_development_dependency "bundler", ">= 1.0.0"
+  s.add_development_dependency "bundler"
   s.add_development_dependency "rdoc"
   s.add_development_dependency "rake"
-  s.add_development_dependency "rspec", "~> 2"
-  s.add_development_dependency "rr"
+  s.add_development_dependency "rspec"
+  s.add_development_dependency "timecop"
   s.add_development_dependency "simplecov"
 
   s.files = Dir.glob("{lib,app,config}/**/*") + %w[LICENSE README.md Rakefile]

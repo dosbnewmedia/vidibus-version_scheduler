@@ -26,26 +26,25 @@ describe "Vidibus::VersionScheduler::MigrationJob" do
 
   describe "#perform" do
     it "should fetch the proper version" do
-      mock(Vidibus::Versioning::Version).
-        where(:uuid => "a02099608baa012e2ee258b035f038ab") { OpenStruct.new }
+      allow(Vidibus::Versioning::Version).to receive(:where).with(uuid: "a02099608baa012e2ee258b035f038ab") { OpenStruct.new }
       job.perform
     end
 
     it "should fetch the versioned object" do
       future_version
-      mock.any_instance_of(Vidibus::Versioning::Version).versioned
+      allow_any_instance_of(Vidibus::Versioning::Version).to receive(:versioned)
       job.perform
     end
 
     it "should migrate the versioned object" do
       future_version
-      mock.any_instance_of(Book).migrate!(2)
+      allow_any_instance_of(Book).to receive(:migrate!).with(2)
       job.perform
     end
 
     it "should handle migration errors" do
       future_version
-      stub.any_instance_of(Book).migrate!(2) do
+      allow_any_instance_of(Book).migrate!(2) do
         raise(Vidibus::Versioning::MigrationError)
       end
       job.perform
@@ -53,7 +52,7 @@ describe "Vidibus::VersionScheduler::MigrationJob" do
 
     it "should destroy the scheduled version after a successful migration" do
       future_version
-      stub.any_instance_of(Book).migrate!(2) {true}
+      allow_any_instance_of(Book).migrate!(2) {true}
       job.perform
       Vidibus::VersionScheduler::ScheduledVersion.count.should eql(0)
     end
@@ -64,7 +63,7 @@ describe "Vidibus::VersionScheduler::MigrationJob" do
         :title => "new title", :updated_at => tomorrow
       })
       future_version
-      stub.any_instance_of(Book).migrate!(2) {true}
+      allow_any_instance_of(Book).migrate!(2) {true}
       job.perform
       Vidibus::VersionScheduler::ScheduledVersion.count.should eql(1)
     end

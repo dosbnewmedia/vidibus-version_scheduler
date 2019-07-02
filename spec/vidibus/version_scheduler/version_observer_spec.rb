@@ -24,8 +24,8 @@ describe "Vidibus::VersionScheduler::VersionObserver" do
     end
 
     it "should not enable scheduling unless the versioned object includes Vidibus::VersionScheduler::Mongoid" do
-      stub(Book).ancestors {[]}
-      dont_allow.any_instance_of(Vidibus::VersionScheduler::VersionObserver).schedule.with_any_args
+      allow(Book).to receive(:ancestors) {[]}
+      expect_any_instance_of(Vidibus::VersionScheduler::VersionObserver).to_not receive(:schedule).with_any_args
       future_version
     end
 

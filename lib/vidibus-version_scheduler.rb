@@ -1,4 +1,5 @@
 require "mongoid"
+require "mongoid-observers"
 require "delayed_job"
 require "delayed_job_mongoid"
 require "vidibus-uuid"
