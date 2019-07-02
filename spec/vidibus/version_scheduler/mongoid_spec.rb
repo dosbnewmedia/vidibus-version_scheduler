@@ -31,7 +31,7 @@ describe "Vidibus::VersionScheduler::Mongoid" do
 
     it "should not prevent the versioned object from saving, if invalid" do
       future_version
-      double.any_instance_of(Vidibus::VersionScheduler::ScheduledVersion).valid? {false}
+      allow_any_instance_of(Vidibus::VersionScheduler::ScheduledVersion).to receive(:valid?) {false}
       expect(future_version.save).to be_truthy
     end
   end

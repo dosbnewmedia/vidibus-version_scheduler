@@ -19,13 +19,13 @@ describe "Vidibus::VersionScheduler::VersionObserver" do
 
   describe "saving a version" do
     it "should enable scheduling if the versioned object should be scheduled" do
-      double.any_instance_of(Vidibus::VersionScheduler::VersionObserver).schedule.with_any_args
+      allow_any_instance_of(Vidibus::VersionScheduler::VersionObserver).to receive(:schedule).with(any_args)
       future_version
     end
 
     it "should not enable scheduling unless the versioned object includes Vidibus::VersionScheduler::Mongoid" do
       allow(Book).to receive(:ancestors) {[]}
-      expect_any_instance_of(Vidibus::VersionScheduler::VersionObserver).to_not receive(:schedule).with_any_args
+      expect_any_instance_of(Vidibus::VersionScheduler::VersionObserver).to_not receive(:schedule).with(any_args)
       future_version
     end
 

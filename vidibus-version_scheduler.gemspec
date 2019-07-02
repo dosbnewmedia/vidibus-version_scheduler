@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.add_dependency "delayed_job"
   s.add_dependency "delayed_job_mongoid"
   s.add_dependency 'mongoid-observers', '~> 0.3.0'
-  #s.add_dependency "vidibus-versioning"
+  s.add_dependency "vidibus-versioning"
 
   s.add_development_dependency "bundler"
   s.add_development_dependency "rdoc"

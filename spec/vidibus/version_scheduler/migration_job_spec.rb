@@ -44,7 +44,7 @@ describe "Vidibus::VersionScheduler::MigrationJob" do
 
     it "should handle migration errors" do
       future_version
-      allow_any_instance_of(Book).migrate!(2) do
+      allow_any_instance_of(Book).to receive(:migrate!).with(2) do
         raise(Vidibus::Versioning::MigrationError)
       end
       job.perform
@@ -52,7 +52,7 @@ describe "Vidibus::VersionScheduler::MigrationJob" do
 
     it "should destroy the scheduled version after a successful migration" do
       future_version
-      allow_any_instance_of(Book).migrate!(2) {true}
+      allow_any_instance_of(Book).to receive(:migrate!).with(2) {true}
       job.perform
       expect(Vidibus::VersionScheduler::ScheduledVersion.count).to eql(0)
     end
@@ -63,7 +63,7 @@ describe "Vidibus::VersionScheduler::MigrationJob" do
         :title => "new title", :updated_at => tomorrow
       })
       future_version
-      allow_any_instance_of(Book).migrate!(2) {true}
+      allow_any_instance_of(Book).to receive(:migrate!).with(2) {true}
       job.perform
       expect(Vidibus::VersionScheduler::ScheduledVersion.count).to eql(1)
     end
